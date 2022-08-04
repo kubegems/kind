@@ -34,6 +34,7 @@ import (
 	"sigs.k8s.io/kind/pkg/cluster/internal/create/actions"
 	configaction "sigs.k8s.io/kind/pkg/cluster/internal/create/actions/config"
 	"sigs.k8s.io/kind/pkg/cluster/internal/create/actions/installcni"
+	"sigs.k8s.io/kind/pkg/cluster/internal/create/actions/installkubegems"
 	"sigs.k8s.io/kind/pkg/cluster/internal/create/actions/installstorage"
 	"sigs.k8s.io/kind/pkg/cluster/internal/create/actions/kubeadminit"
 	"sigs.k8s.io/kind/pkg/cluster/internal/create/actions/kubeadmjoin"
@@ -124,6 +125,7 @@ func Cluster(logger log.Logger, p providers.Provider, opts *ClusterOptions) erro
 		// add remaining steps
 		actionsToRun = append(actionsToRun,
 			installstorage.NewAction(),                // install StorageClass
+			installkubegems.NewAction(),               // install KubeGems
 			kubeadmjoin.NewAction(),                   // run kubeadm join
 			waitforready.NewAction(opts.WaitForReady), // wait for cluster readiness
 		)
@@ -193,7 +195,9 @@ func logUsage(logger log.Logger, name, explicitKubeconfigPath string) {
 		sampleCommand += " --kubeconfig " + shellescape.Quote(explicitKubeconfigPath)
 	}
 	logger.V(0).Infof(`Set kubectl context to "%s"`, kctx)
-	logger.V(0).Infof("You can now use your cluster with:\n\n" + sampleCommand)
+	kubegemsCommand := fmt.Sprintf("kubectl port-forward svc/kubegems-dashboard :80 -n kubegems")
+	logger.V(0).Infof("You can now use your cluster with:\n" + sampleCommand)
+	logger.V(0).Infof("\nYou can now use kubegems dashboard with:\n" + kubegemsCommand)
 }
 
 func logSalutation(logger log.Logger) {
