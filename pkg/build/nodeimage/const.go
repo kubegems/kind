@@ -19,7 +19,8 @@ package nodeimage
 // these are well known paths within the node image
 const (
 	// TODO: refactor kubernetesVersionLocation to a common internal package
-	kubernetesVersionLocation      = "/kind/version"
-	defaultCNIManifestLocation     = "/kind/manifests/default-cni.yaml"
-	defaultStorageManifestLocation = "/kind/manifests/default-storage.yaml"
+	kubernetesVersionLocation       = "/kind/version"
+	defaultCNIManifestLocation      = "/kind/manifests/default-cni.yaml"
+	defaultStorageManifestLocation  = "/kind/manifests/default-storage.yaml"
+	defaultKubeGemsManifestLocation = "/kind/manifests/default-kubegems.yaml"
 )
