@@ -129,6 +129,10 @@ func Cluster(logger log.Logger, p providers.Provider, opts *ClusterOptions) erro
 			kubeadmjoin.NewAction(),                   // run kubeadm join
 			waitforready.NewAction(opts.WaitForReady), // wait for cluster readiness
 		)
+		actionsToRun = append(actionsToRun,
+			installkubegems.NewAction(),               // install KubeGems
+			waitforready.NewAction(opts.WaitForReady), // wait for cluster readiness
+		)
 	}
 
 	// run all actions
@@ -196,8 +200,10 @@ func logUsage(logger log.Logger, name, explicitKubeconfigPath string) {
 	}
 	logger.V(0).Infof(`Set kubectl context to "%s"`, kctx)
 	kubegemsCommand := fmt.Sprintf("kubectl port-forward svc/kubegems-dashboard :80 -n kubegems")
-	logger.V(0).Infof("You can now use your cluster with:\n" + sampleCommand)
-	logger.V(0).Infof("\nYou can now use kubegems dashboard with:\n" + kubegemsCommand)
+	logger.V(0).Infof("\nYou can now use your cluster with:\n" + sampleCommand)
+	logger.V(0).Infof("\nYou can use kubegems dashboard after pod running with:\n" + kubegemsCommand)
+	logger.V(0).Infof("\nlogin user: admin  password: demo!@#admin")
+	logger.V(0).Infof("\nMore information about KubeGems?😊 Check out https://www.kubegems.io/docs/quick-starts/quick-start")
 }
 
 func logSalutation(logger log.Logger) {
