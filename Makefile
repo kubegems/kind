@@ -61,7 +61,10 @@ KIND_BUILD_FLAGS?=-trimpath -ldflags="-buildid= -w -X=sigs.k8s.io/kind/pkg/cmd/k
 all: build
 # builds kind in a container, outputs to $(OUT_DIR)
 kind:
-	go build -v -o "$(OUT_DIR)/$(KIND_BINARY_NAME)" $(KIND_BUILD_FLAGS)
+	CGO_ENABLED=0 GOOS=linux    GOARCH=amd64 GO111MODULE=on go build -v -o "$(OUT_DIR)/$(KIND_BINARY_NAME)-linux-amd64" $(KIND_BUILD_FLAGS)
+	CGO_ENABLED=0 GOOS=windows  GOARCH=amd64 go build -v -o "$(OUT_DIR)/$(KIND_BINARY_NAME)-windows-amd64" $(KIND_BUILD_FLAGS)
+	CGO_ENABLED=0 GOOS=darwin   GOARCH=arm64 go build -v -o "$(OUT_DIR)/$(KIND_BINARY_NAME)-darwin-arm64" $(KIND_BUILD_FLAGS)
+	CGO_ENABLED=0 GOOS=darwin   GOARCH=amd64 go build -v -o "$(OUT_DIR)/$(KIND_BINARY_NAME)-darwin-amd64" $(KIND_BUILD_FLAGS)
 # alias for building kind
 build: kind
 # use: make install INSTALL_DIR=/usr/local/bin
