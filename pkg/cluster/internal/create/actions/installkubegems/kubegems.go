@@ -41,7 +41,7 @@ func (a *action) Execute(ctx *actions.ActionContext) error {
 	}
 	if err := node.Command(
 		"kubectl", "create", "--kubeconfig=/etc/kubernetes/admin.conf",
-		"-f", "https://github.com/kubegems/kubegems/raw/main/deploy/installer.yaml",
+		"-f", "https://raw.githubusercontent.com/kubegems/kubegems/release-1.22/deploy/installer.yaml",
 	).Run(); err != nil {
 		return errors.Wrap(err, "failed to apply kubegems installer")
 	}
@@ -53,7 +53,7 @@ func (a *action) Execute(ctx *actions.ActionContext) error {
 	}
 	if err := node.Command(
 		"kubectl", "create", "--kubeconfig=/etc/kubernetes/admin.conf",
-		"-f", "https://raw.githubusercontent.com/kubegems/kind/main/version/kubegems-1.22.0-rc.1.yaml",
+		"-f", "https://raw.githubusercontent.com/kubegems/kind/main/version/kubegems-1.22.0.yaml",
 	).Run(); err != nil {
 		return errors.Wrap(err, "failed to apply kubegems")
 	}
