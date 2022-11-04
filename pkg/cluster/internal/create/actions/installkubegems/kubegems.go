@@ -53,7 +53,7 @@ func (a *action) Execute(ctx *actions.ActionContext) error {
 	}
 	if err := node.Command(
 		"kubectl", "create", "--kubeconfig=/etc/kubernetes/admin.conf",
-		"-f", "https://raw.githubusercontent.com/kubegems/kind/main/kubegems-kind.yaml",
+		"-f", "https://raw.githubusercontent.com/kubegems/kind/main/version/kubegems-1.22.0-rc.1.yaml",
 	).Run(); err != nil {
 		return errors.Wrap(err, "failed to apply kubegems")
 	}
